@@ -1,0 +1,471 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		308C286B0E6131A6759C5B1B /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C3D9E45109A86F5233AD761 /* libPods.a */; };
+		905AC6501BF98F910009A72D /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 905AC64F1BF98F910009A72D /* main.m */; };
+		905AC6531BF98F910009A72D /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 905AC6521BF98F910009A72D /* AppDelegate.m */; };
+		905AC6591BF98F910009A72D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 905AC6571BF98F910009A72D /* Main.storyboard */; };
+		905AC65B1BF98F910009A72D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 905AC65A1BF98F910009A72D /* Assets.xcassets */; };
+		905AC65E1BF98F910009A72D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 905AC65C1BF98F910009A72D /* LaunchScreen.storyboard */; };
+		905AC66A1BF990E00009A72D /* DDContentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 905AC6671BF990E00009A72D /* DDContentViewController.m */; };
+		905AC66B1BF990E00009A72D /* DDPageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 905AC6691BF990E00009A72D /* DDPageViewController.m */; };
+		905AC73A1BFA2EFB0009A72D /* DDTabBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 905AC7391BFA2EFB0009A72D /* DDTabBar.m */; };
+		905AC73D1BFA2F1A0009A72D /* DDTabBarItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 905AC73C1BFA2F1A0009A72D /* DDTabBarItem.m */; };
+		905AC7401BFA2F4B0009A72D /* DDTabBarButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 905AC73F1BFA2F4B0009A72D /* DDTabBarButton.m */; };
+		9080D4931BFAF48C00E956DD /* DDViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9080D4911BFAF48C00E956DD /* DDViewController.m */; };
+		9080D4941BFAF48C00E956DD /* DDViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9080D4921BFAF48C00E956DD /* DDViewController.xib */; };
+		9080D4971BFAF5F200E956DD /* DDMainContentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9080D4961BFAF5F200E956DD /* DDMainContentViewController.m */; };
+		9080D49B1BFAF60C00E956DD /* DDViewController1.m in Sources */ = {isa = PBXBuildFile; fileRef = 9080D4991BFAF60C00E956DD /* DDViewController1.m */; };
+		9080D49C1BFAF60C00E956DD /* DDViewController1.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9080D49A1BFAF60C00E956DD /* DDViewController1.xib */; };
+		9080D4A01BFAF61A00E956DD /* DDViewController2.m in Sources */ = {isa = PBXBuildFile; fileRef = 9080D49E1BFAF61A00E956DD /* DDViewController2.m */; };
+		9080D4A11BFAF61A00E956DD /* DDViewController2.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9080D49F1BFAF61A00E956DD /* DDViewController2.xib */; };
+		9080D4A51BFAF62800E956DD /* DDViewController3.m in Sources */ = {isa = PBXBuildFile; fileRef = 9080D4A31BFAF62800E956DD /* DDViewController3.m */; };
+		9080D4A61BFAF62800E956DD /* DDViewController3.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9080D4A41BFAF62800E956DD /* DDViewController3.xib */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		4C3D9E45109A86F5233AD761 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		905AC64B1BF98F910009A72D /* DDPagerControllerDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DDPagerControllerDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		905AC64F1BF98F910009A72D /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		905AC6511BF98F910009A72D /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		905AC6521BF98F910009A72D /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		905AC6581BF98F910009A72D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		905AC65A1BF98F910009A72D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		905AC65D1BF98F910009A72D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		905AC65F1BF98F910009A72D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		905AC6661BF990E00009A72D /* DDContentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDContentViewController.h; sourceTree = "<group>"; };
+		905AC6671BF990E00009A72D /* DDContentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDContentViewController.m; sourceTree = "<group>"; };
+		905AC6681BF990E00009A72D /* DDPageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDPageViewController.h; sourceTree = "<group>"; };
+		905AC6691BF990E00009A72D /* DDPageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDPageViewController.m; sourceTree = "<group>"; };
+		905AC7381BFA2EFB0009A72D /* DDTabBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDTabBar.h; sourceTree = "<group>"; };
+		905AC7391BFA2EFB0009A72D /* DDTabBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDTabBar.m; sourceTree = "<group>"; };
+		905AC73B1BFA2F1A0009A72D /* DDTabBarItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDTabBarItem.h; sourceTree = "<group>"; };
+		905AC73C1BFA2F1A0009A72D /* DDTabBarItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDTabBarItem.m; sourceTree = "<group>"; };
+		905AC73E1BFA2F4B0009A72D /* DDTabBarButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDTabBarButton.h; sourceTree = "<group>"; };
+		905AC73F1BFA2F4B0009A72D /* DDTabBarButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDTabBarButton.m; sourceTree = "<group>"; };
+		9080D4901BFAF48C00E956DD /* DDViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDViewController.h; sourceTree = "<group>"; };
+		9080D4911BFAF48C00E956DD /* DDViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDViewController.m; sourceTree = "<group>"; };
+		9080D4921BFAF48C00E956DD /* DDViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DDViewController.xib; sourceTree = "<group>"; };
+		9080D4951BFAF5F200E956DD /* DDMainContentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDMainContentViewController.h; sourceTree = "<group>"; };
+		9080D4961BFAF5F200E956DD /* DDMainContentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDMainContentViewController.m; sourceTree = "<group>"; };
+		9080D4981BFAF60C00E956DD /* DDViewController1.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDViewController1.h; sourceTree = "<group>"; };
+		9080D4991BFAF60C00E956DD /* DDViewController1.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDViewController1.m; sourceTree = "<group>"; };
+		9080D49A1BFAF60C00E956DD /* DDViewController1.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DDViewController1.xib; sourceTree = "<group>"; };
+		9080D49D1BFAF61A00E956DD /* DDViewController2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDViewController2.h; sourceTree = "<group>"; };
+		9080D49E1BFAF61A00E956DD /* DDViewController2.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDViewController2.m; sourceTree = "<group>"; };
+		9080D49F1BFAF61A00E956DD /* DDViewController2.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DDViewController2.xib; sourceTree = "<group>"; };
+		9080D4A21BFAF62800E956DD /* DDViewController3.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDViewController3.h; sourceTree = "<group>"; };
+		9080D4A31BFAF62800E956DD /* DDViewController3.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDViewController3.m; sourceTree = "<group>"; };
+		9080D4A41BFAF62800E956DD /* DDViewController3.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DDViewController3.xib; sourceTree = "<group>"; };
+		B2758CBD32F31DC307D2400B /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
+		EB1826501C92C1E86A293E89 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		905AC6481BF98F910009A72D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				308C286B0E6131A6759C5B1B /* libPods.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		222040060601E42F31EAB44A /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				4C3D9E45109A86F5233AD761 /* libPods.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		905AC6421BF98F910009A72D = {
+			isa = PBXGroup;
+			children = (
+				905AC7371BFA2EB70009A72D /* DDTabBar */,
+				905AC6651BF990E00009A72D /* DDPagerController */,
+				905AC64D1BF98F910009A72D /* DDPagerControllerDemo */,
+				905AC64C1BF98F910009A72D /* Products */,
+				9A1D6EBD7F2ED6BD9CEC11CA /* Pods */,
+				222040060601E42F31EAB44A /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		905AC64C1BF98F910009A72D /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				905AC64B1BF98F910009A72D /* DDPagerControllerDemo.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		905AC64D1BF98F910009A72D /* DDPagerControllerDemo */ = {
+			isa = PBXGroup;
+			children = (
+				905AC6511BF98F910009A72D /* AppDelegate.h */,
+				905AC6521BF98F910009A72D /* AppDelegate.m */,
+				9080D4901BFAF48C00E956DD /* DDViewController.h */,
+				9080D4911BFAF48C00E956DD /* DDViewController.m */,
+				9080D4921BFAF48C00E956DD /* DDViewController.xib */,
+				9080D4951BFAF5F200E956DD /* DDMainContentViewController.h */,
+				9080D4961BFAF5F200E956DD /* DDMainContentViewController.m */,
+				9080D4981BFAF60C00E956DD /* DDViewController1.h */,
+				9080D4991BFAF60C00E956DD /* DDViewController1.m */,
+				9080D49A1BFAF60C00E956DD /* DDViewController1.xib */,
+				9080D49D1BFAF61A00E956DD /* DDViewController2.h */,
+				9080D49E1BFAF61A00E956DD /* DDViewController2.m */,
+				9080D49F1BFAF61A00E956DD /* DDViewController2.xib */,
+				9080D4A21BFAF62800E956DD /* DDViewController3.h */,
+				9080D4A31BFAF62800E956DD /* DDViewController3.m */,
+				9080D4A41BFAF62800E956DD /* DDViewController3.xib */,
+				905AC6571BF98F910009A72D /* Main.storyboard */,
+				905AC65A1BF98F910009A72D /* Assets.xcassets */,
+				905AC65C1BF98F910009A72D /* LaunchScreen.storyboard */,
+				905AC65F1BF98F910009A72D /* Info.plist */,
+				905AC64E1BF98F910009A72D /* Supporting Files */,
+			);
+			path = DDPagerControllerDemo;
+			sourceTree = "<group>";
+		};
+		905AC64E1BF98F910009A72D /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				905AC64F1BF98F910009A72D /* main.m */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		905AC6651BF990E00009A72D /* DDPagerController */ = {
+			isa = PBXGroup;
+			children = (
+				905AC6661BF990E00009A72D /* DDContentViewController.h */,
+				905AC6671BF990E00009A72D /* DDContentViewController.m */,
+				905AC6681BF990E00009A72D /* DDPageViewController.h */,
+				905AC6691BF990E00009A72D /* DDPageViewController.m */,
+			);
+			name = DDPagerController;
+			path = ../DDPagerController;
+			sourceTree = "<group>";
+		};
+		905AC7371BFA2EB70009A72D /* DDTabBar */ = {
+			isa = PBXGroup;
+			children = (
+				905AC7381BFA2EFB0009A72D /* DDTabBar.h */,
+				905AC7391BFA2EFB0009A72D /* DDTabBar.m */,
+				905AC73B1BFA2F1A0009A72D /* DDTabBarItem.h */,
+				905AC73C1BFA2F1A0009A72D /* DDTabBarItem.m */,
+				905AC73E1BFA2F4B0009A72D /* DDTabBarButton.h */,
+				905AC73F1BFA2F4B0009A72D /* DDTabBarButton.m */,
+			);
+			name = DDTabBar;
+			path = ../DDTabBar;
+			sourceTree = "<group>";
+		};
+		9A1D6EBD7F2ED6BD9CEC11CA /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				EB1826501C92C1E86A293E89 /* Pods.debug.xcconfig */,
+				B2758CBD32F31DC307D2400B /* Pods.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		905AC64A1BF98F910009A72D /* DDPagerControllerDemo */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 905AC6621BF98F910009A72D /* Build configuration list for PBXNativeTarget "DDPagerControllerDemo" */;
+			buildPhases = (
+				145DDCD6DF0618A8E7BCB291 /* Check Pods Manifest.lock */,
+				905AC6471BF98F910009A72D /* Sources */,
+				905AC6481BF98F910009A72D /* Frameworks */,
+				905AC6491BF98F910009A72D /* Resources */,
+				D7D4DABA47334B4B051D3556 /* Embed Pods Frameworks */,
+				7494BF8570BAEE34768A0727 /* Copy Pods Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = DDPagerControllerDemo;
+			productName = DDPagerControllerDemo;
+			productReference = 905AC64B1BF98F910009A72D /* DDPagerControllerDemo.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		905AC6431BF98F910009A72D /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0710;
+				ORGANIZATIONNAME = LiLingang;
+				TargetAttributes = {
+					905AC64A1BF98F910009A72D = {
+						CreatedOnToolsVersion = 7.1;
+					};
+				};
+			};
+			buildConfigurationList = 905AC6461BF98F910009A72D /* Build configuration list for PBXProject "DDPagerControllerDemo" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 905AC6421BF98F910009A72D;
+			productRefGroup = 905AC64C1BF98F910009A72D /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				905AC64A1BF98F910009A72D /* DDPagerControllerDemo */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		905AC6491BF98F910009A72D /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9080D4941BFAF48C00E956DD /* DDViewController.xib in Resources */,
+				905AC65E1BF98F910009A72D /* LaunchScreen.storyboard in Resources */,
+				9080D4A61BFAF62800E956DD /* DDViewController3.xib in Resources */,
+				905AC65B1BF98F910009A72D /* Assets.xcassets in Resources */,
+				9080D4A11BFAF61A00E956DD /* DDViewController2.xib in Resources */,
+				9080D49C1BFAF60C00E956DD /* DDViewController1.xib in Resources */,
+				905AC6591BF98F910009A72D /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		145DDCD6DF0618A8E7BCB291 /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		7494BF8570BAEE34768A0727 /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		D7D4DABA47334B4B051D3556 /* Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		905AC6471BF98F910009A72D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9080D4A51BFAF62800E956DD /* DDViewController3.m in Sources */,
+				9080D4A01BFAF61A00E956DD /* DDViewController2.m in Sources */,
+				905AC73D1BFA2F1A0009A72D /* DDTabBarItem.m in Sources */,
+				9080D4971BFAF5F200E956DD /* DDMainContentViewController.m in Sources */,
+				905AC7401BFA2F4B0009A72D /* DDTabBarButton.m in Sources */,
+				905AC6531BF98F910009A72D /* AppDelegate.m in Sources */,
+				9080D49B1BFAF60C00E956DD /* DDViewController1.m in Sources */,
+				905AC66B1BF990E00009A72D /* DDPageViewController.m in Sources */,
+				9080D4931BFAF48C00E956DD /* DDViewController.m in Sources */,
+				905AC66A1BF990E00009A72D /* DDContentViewController.m in Sources */,
+				905AC6501BF98F910009A72D /* main.m in Sources */,
+				905AC73A1BFA2EFB0009A72D /* DDTabBar.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		905AC6571BF98F910009A72D /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				905AC6581BF98F910009A72D /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		905AC65C1BF98F910009A72D /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				905AC65D1BF98F910009A72D /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		905AC6601BF98F910009A72D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		905AC6611BF98F910009A72D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		905AC6631BF98F910009A72D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = EB1826501C92C1E86A293E89 /* Pods.debug.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				INFOPLIST_FILE = DDPagerControllerDemo/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = HM.DDPagerControllerDemo;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		905AC6641BF98F910009A72D /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = B2758CBD32F31DC307D2400B /* Pods.release.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				INFOPLIST_FILE = DDPagerControllerDemo/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = HM.DDPagerControllerDemo;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		905AC6461BF98F910009A72D /* Build configuration list for PBXProject "DDPagerControllerDemo" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				905AC6601BF98F910009A72D /* Debug */,
+				905AC6611BF98F910009A72D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		905AC6621BF98F910009A72D /* Build configuration list for PBXNativeTarget "DDPagerControllerDemo" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				905AC6631BF98F910009A72D /* Debug */,
+				905AC6641BF98F910009A72D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 905AC6431BF98F910009A72D /* Project object */;
+}
