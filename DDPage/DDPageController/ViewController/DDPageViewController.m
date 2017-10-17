@@ -31,6 +31,7 @@ typedef NS_ENUM(NSUInteger, DDPageViewControllerNavigationDirection) {
 @property (nonatomic, strong) NSMutableDictionary <NSNumber *, NSNumber *> *childContentOffsetDict;
 
 @property (nonatomic, assign) BOOL firstWillLayoutSubViews;
+@property (nonatomic, assign) BOOL firstWillAppear;
 
 @property (nonatomic, assign) NSInteger lastSelectedIndex;
 @property (nonatomic, assign, readwrite) NSInteger currentSelectedIndex;
@@ -67,6 +68,28 @@ typedef NS_ENUM(NSUInteger, DDPageViewControllerNavigationDirection) {
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+    if (self.firstWillAppear) {
+        UIScreenEdgePanGestureRecognizer *screenEdgePanGestureRecognizer = nil;
+        if (self.dataSource && [self.dataSource respondsToSelector:@selector(screenEdgePanGestureRecognizerInPageViewController:)]) {
+            screenEdgePanGestureRecognizer = [self.dataSource screenEdgePanGestureRecognizerInPageViewController:self];
+        }
+        if (!screenEdgePanGestureRecognizer) {
+            if (self.navigationController.view.gestureRecognizers.count > 0){
+                for (UIGestureRecognizer *recognizer in self.navigationController.view.gestureRecognizers){
+                    if ([recognizer isKindOfClass:[UIScreenEdgePanGestureRecognizer class]]){
+                        screenEdgePanGestureRecognizer = (UIScreenEdgePanGestureRecognizer *)recognizer;
+                        break;
+                    }
+                }
+            }
+        }
+        if (screenEdgePanGestureRecognizer) {
+            [self.myScrollView.panGestureRecognizer requireGestureRecognizerToFail:screenEdgePanGestureRecognizer];
+        }
+        [self p_updateScrollViewLayoutIfNeed];
+        self.firstWillAppear = NO;
+    }
+
     [[self p_viewControllerAtIndex:self.currentSelectedIndex] beginAppearanceTransition:YES animated:animated];
 }
 
@@ -85,8 +108,8 @@ typedef NS_ENUM(NSUInteger, DDPageViewControllerNavigationDirection) {
     [[self p_viewControllerAtIndex:self.currentSelectedIndex] endAppearanceTransition];
 }
 
-- (void)viewDidLayoutSubviews {
-    [super viewDidLayoutSubviews];
+- (void)viewWillLayoutSubviews {
+    [super viewWillLayoutSubviews];
     [self p_updateScrollViewLayoutIfNeed];
     if (self.firstWillLayoutSubViews) {
         [self p_updateScrollViewDisplayIndexIfNeed];
@@ -325,7 +348,7 @@ typedef NS_ENUM(NSUInteger, DDPageViewControllerNavigationDirection) {
 - (void)p_updateScrollViewLayoutIfNeed{
     if (self.myScrollView.frame.size.width > 0) {
         CGFloat width = [self p_numberOfViewControllers] * self.myScrollView.frame.size.width;
-        [self.myScrollView ddPage_updateScrollViewContentSize:CGSizeMake(width, self.view.bounds.size.height)];
+        [self.myScrollView ddPage_updateScrollViewContentWith:width];
     }
 }
 
@@ -453,6 +476,17 @@ typedef NS_ENUM(NSUInteger, DDPageViewControllerNavigationDirection) {
     scrollView.tag = index;
     [scrollView addObserver:self forKeyPath:@"contentOffset" options:NSKeyValueObservingOptionInitial | NSKeyValueObservingOptionNew context:nil];
     [scrollView addObserver:self forKeyPath:@"contentSize" options:NSKeyValueObservingOptionInitial | NSKeyValueObservingOptionNew context:nil];
+    
+    if ([self.dataSource respondsToSelector:@selector(ddPageViewController:pageTopOffsetAtIndex:)]) {
+        UIEdgeInsets contentInset = scrollView.contentInset;
+        CGFloat offsetX = [self.dataSource ddPageViewController:self pageTopOffsetAtIndex:index];
+        scrollView.contentInset =  UIEdgeInsetsMake(offsetX, contentInset.left, contentInset.bottom, contentInset.right);
+#ifdef __IPHONE_11_0
+        if (@available(iOS 11.0, *)) {
+            scrollView.contentInsetAdjustmentBehavior =  UIScrollViewContentInsetAdjustmentNever;
+        }
+#endif
+    }
 }
 
 - (void)observeValueForKeyPath:(NSString *)keyPath
@@ -463,22 +497,21 @@ typedef NS_ENUM(NSUInteger, DDPageViewControllerNavigationDirection) {
     NSInteger index = scrollView.tag;
 
     if ([keyPath isEqualToString:@"contentOffset"]) {
-        BOOL shoulRememberPageOffset = NO;
-        if (!self.delegate || [self.delegate respondsToSelector:@selector(shouldRememberPageOffsetInPageViewController:)]) {
-            shoulRememberPageOffset = [self.delegate shouldRememberPageOffsetInPageViewController:self];
-        }
-        if (shoulRememberPageOffset) {
-            if (ceil([self.childContentOffsetDict[@(index)] floatValue]) == ceil(scrollView.contentSize.height)) {
-                self.childContentOffsetDict[@(index)] = @(scrollView.contentOffset.y);
-            }
-        }
-        if (self.delegate && [self.delegate respondsToSelector:@selector(ddPageViewController:childDidChangeContentOffset:)]) {
-            [self.delegate ddPageViewController:self childDidChangeContentOffset:scrollView];
+        CGFloat lastContentOffsetY = [self.childContentOffsetDict[@(index)] floatValue];
+        CGFloat currentContentOffsetY = scrollView.contentOffset.y;
+        self.childContentOffsetDict[@(index)] = @(currentContentOffsetY);
+        BOOL scrollTop = lastContentOffsetY <= currentContentOffsetY ? YES : NO;
+        if (self.delegate && [self.delegate respondsToSelector:@selector(ddPageViewController:childDidChangeContentOffsetY:scrollTop:)]) {
+            [self.delegate ddPageViewController:self childDidChangeContentOffsetY:currentContentOffsetY scrollTop:scrollTop];
         }
     } else if ([keyPath isEqualToString:@"contentSize"]) {
         if (self.childContentSizeDict[@(index)] && (ceil([self.childContentSizeDict[@(index)] floatValue]) != ceil(scrollView.contentSize.height))) {
             self.childContentSizeDict[@(index)] = @(scrollView.contentSize.height);
-            if (self.childContentOffsetDict[@(index)]) {
+            BOOL shouldRecoverLastOffset = YES;
+            if (!self.delegate || [self.delegate respondsToSelector:@selector(shouldRememberPageOffsetInPageViewController:)]) {
+                shouldRecoverLastOffset = [self.delegate shouldRememberPageOffsetInPageViewController:self];
+            }
+            if (self.childContentOffsetDict[@(index)] && shouldRecoverLastOffset) {
                 scrollView.contentOffset = CGPointMake(0, [self.childContentOffsetDict[@(index)] floatValue]);
             }
         } else {

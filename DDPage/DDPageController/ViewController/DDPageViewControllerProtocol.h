@@ -19,9 +19,14 @@
 - (UIViewController *)ddPageViewController:(DDPageViewController*)pageViewController
                      viewControllerAtIndex:(NSInteger)index;
 
+- (UIScreenEdgePanGestureRecognizer *)screenEdgePanGestureRecognizerInPageViewController:(DDPageViewController *)pageViewController;
+
 @optional
 
 - (NSInteger)initViewControllerIndexInPageViewController:(DDPageViewController *)pageViewController;
+
+- (NSInteger)ddPageViewController:(DDPageViewController*)pageViewController
+             pageTopOffsetAtIndex:(NSInteger)index;
 
 @end
 
@@ -41,7 +46,8 @@ didTransitionFromViewController:(UIViewController *)fromViewController
       didChangeContentOffset:(UIScrollView *)scrollView;
 
 - (void)ddPageViewController:(DDPageViewController*)pageViewController
-      childDidChangeContentOffset:(UIScrollView *)scrollView;
+childDidChangeContentOffsetY:(CGFloat)offsetY
+                   scrollTop:(BOOL)scrollTop;
 
 - (BOOL)shouldRememberPageOffsetInPageViewController:(DDPageViewController *)pageViewController;
 

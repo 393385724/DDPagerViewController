@@ -12,6 +12,7 @@
 @interface HMContentViewController ()
 
 @property (weak, nonatomic) IBOutlet UIView *segmentView;
+@property (weak, nonatomic) IBOutlet UIView *coverView;
 
 @end
 
@@ -20,13 +21,22 @@
 - (instancetype)init {
     self = [super init];
     if (self) {
+        _bounces = YES;
     }
     return self;
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+}
 
+- (void)viewWillAppear:(BOOL)animated {
+//    [self.navigationController setNavigationBarHidden:YES animated:animated];
+    [super viewWillAppear:animated];
+}
+
+- (UIView *)preferCoverView {
+    return self.coverView;
 }
 
 - (UIView *)pageSegmentView {

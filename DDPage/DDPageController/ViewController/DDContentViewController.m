@@ -80,7 +80,11 @@
     return [self.pageViewController currentViewController];
 }
 
-- (UIView *)pagebarView {
+- (UIView *)preferCoverView {
+    return nil;
+}
+
+- (UIView *)pageSegmentView {
     return nil;
 }
 
@@ -104,6 +108,24 @@
     return self.firstReloadIndex;
 }
 
+- (NSInteger)ddPageViewController:(DDPageViewController *)pageViewController pageTopOffsetAtIndex:(NSInteger)index {
+    return 200 + 44;
+}
+
+- (UIScreenEdgePanGestureRecognizer *)screenEdgePanGestureRecognizerInPageViewController:(DDPageViewController *)pageViewController {
+    UIScreenEdgePanGestureRecognizer *screenEdgePanGestureRecognizer = nil;
+    if (self.navigationController.view.gestureRecognizers.count > 0){
+        for (UIGestureRecognizer *recognizer in self.navigationController.view.gestureRecognizers){
+            if ([recognizer isKindOfClass:[UIScreenEdgePanGestureRecognizer class]]){
+                screenEdgePanGestureRecognizer = (UIScreenEdgePanGestureRecognizer *)recognizer;
+                break;
+            }
+        }
+    }
+    return screenEdgePanGestureRecognizer;
+}
+
+
 #pragma mark - DDPageViewControllerDelegate
 
 - (void)ddPageViewController:(DDPageViewController*)pageViewController
@@ -119,10 +141,36 @@ didTransitionFromViewController:(UIViewController *)fromViewController
 }
 
 - (void)ddPageViewController:(DDPageViewController*)pageViewController
-      childDidChangeContentOffset:(UIScrollView *)scrollView {
-    NSLog(@"scrollView offsetX:%f offsetY:%f ",scrollView.contentOffset.x,scrollView.contentOffset.y);
-    CGFloat top = 64 - scrollView.contentOffset.y;
-    self.pageSegmentView.frame = CGRectMake(self.pageSegmentView.frame.origin.x, top, self.pageSegmentView.frame.size.width, self.pageSegmentView.frame.size.height);
+      childDidChangeContentOffsetY:(CGFloat)offsetY
+                   scrollTop:(BOOL)scrollTop {
+    CGRect statusBarFrame = [[UIApplication sharedApplication] statusBarFrame];
+    CGRect navigationBarFrame = self.navigationController.navigationBar.frame;
+    CGFloat defaultTopOffset = _defaultTopOffsetCompensation;
+    defaultTopOffset += ([UIApplication sharedApplication].statusBarHidden ? 0 : CGRectGetHeight(statusBarFrame));
+
+    if (self.preferCoverView) {
+        CGFloat coverViewHeight = CGRectGetHeight(self.preferCoverView.frame);
+        CGFloat scrollViewDefaultOffsetY = defaultTopOffset + coverViewHeight - (self.navigationController.navigationBarHidden ? 0 : CGRectGetHeight(navigationBarFrame)) + 4;
+        CGFloat coverViewTop = -offsetY - scrollViewDefaultOffsetY;
+        
+        CGRect frame = self.preferCoverView.frame;
+        frame.origin.y = coverViewTop;
+        self.preferCoverView.frame = frame;
+    }
+    
+    if (self.pageSegmentView) {
+        CGFloat pageSegmentHeight = CGRectGetHeight(self.pageSegmentView.frame);
+        CGFloat scrollViewDefaultOffsetY = defaultTopOffset - pageSegmentHeight + (self.navigationController.navigationBarHidden ? 0 : CGRectGetHeight(navigationBarFrame));;
+        CGFloat pageSegmentTop = offsetY;
+        if (offsetY >= -pageSegmentHeight) {
+            pageSegmentTop = defaultTopOffset;
+        } else {
+            pageSegmentTop = -offsetY + scrollViewDefaultOffsetY;
+        }
+        CGRect frame = self.pageSegmentView.frame;
+        frame.origin.y = pageSegmentTop;
+        self.pageSegmentView.frame = frame;
+    }
 }
 
 - (BOOL)shouldRememberPageOffsetInPageViewController:(DDPageViewController *)pageViewController {

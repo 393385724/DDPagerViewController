@@ -17,8 +17,8 @@
     //是否有bounces效果， 默认NO
     BOOL _bounces;
     
-    //segmentView 向上最小偏移量
-    CGFloat _minSegmentViewYPullUp;
+    //默认垂直方向，偏移补偿，默认0
+    CGFloat _defaultTopOffsetCompensation;
 }
 
 @property (nonatomic, strong) NSMutableArray *topViews;
@@ -35,8 +35,10 @@
  */
 - (UIViewController *)currentChildViewController;
 
+- (UIView *)preferCoverView;
+
 /**
- 自定义的页面选项, 默认nil
+ 页面选项, 默认nil
 
  @return UIView
  */

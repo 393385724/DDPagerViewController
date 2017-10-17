@@ -16,11 +16,9 @@
     return CGRectMake(offsetX, 0, self.frame.size.width, self.frame.size.height);
 }
 
-- (void)ddPage_updateScrollViewContentSize:(CGSize)size {
-    CGSize oldContentSize = self.contentSize;
-    if (size.width != oldContentSize.width ||
-        size.height!= oldContentSize.height) {
-        self.contentSize = size;
+- (void)ddPage_updateScrollViewContentWith:(CGFloat)width {
+    if (width != self.contentSize.width && width > 0) {
+        self.contentSize = CGSizeMake(width, self.contentSize.height);
     }
 }
 

@@ -12,7 +12,7 @@
 
 - (CGRect)ddPage_calculateVisibleViewControllerFrameWithIndex:(NSInteger)index;
 
-- (void)ddPage_updateScrollViewContentSize:(CGSize)size;
+- (void)ddPage_updateScrollViewContentWith:(CGFloat)width;
 
 - (NSInteger)ddPage_calculateIndexWithOffsetX:(CGFloat)offsetX pageWidth:(CGFloat)pageWidth;
 

@@ -22,7 +22,6 @@
 
 - (IBAction)buttonAction:(id)sender {
     HMContentViewController *viewController = [[HMContentViewController alloc] init];
-    viewController.firstReloadIndex = 4;
     [self.navigationController pushViewController:viewController animated:YES];
 }
 
