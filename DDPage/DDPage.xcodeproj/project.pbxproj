@@ -11,6 +11,8 @@
 		9041F0CA1F909D8F007E3444 /* DDContentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9041F0C91F909D8F007E3444 /* DDContentViewController.m */; };
 		9041F0CE1F90C3B1007E3444 /* HMMainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9041F0CC1F90C3B1007E3444 /* HMMainViewController.m */; };
 		9041F0CF1F90C3B1007E3444 /* HMMainViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9041F0CD1F90C3B1007E3444 /* HMMainViewController.xib */; };
+		907E25981F99AAE400CD1B51 /* HMCustomNavViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 907E25961F99AAE400CD1B51 /* HMCustomNavViewController.m */; };
+		907E25991F99AAE400CD1B51 /* HMCustomNavViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 907E25971F99AAE400CD1B51 /* HMCustomNavViewController.xib */; };
 		9091F5A91F90564700D4D2F5 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 9091F5A81F90564700D4D2F5 /* AppDelegate.m */; };
 		9091F5AF1F90564700D4D2F5 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9091F5AD1F90564700D4D2F5 /* Main.storyboard */; };
 		9091F5B11F90564700D4D2F5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9091F5B01F90564700D4D2F5 /* Assets.xcassets */; };
@@ -34,6 +36,9 @@
 		9041F0CB1F90C3B1007E3444 /* HMMainViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HMMainViewController.h; sourceTree = "<group>"; };
 		9041F0CC1F90C3B1007E3444 /* HMMainViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HMMainViewController.m; sourceTree = "<group>"; };
 		9041F0CD1F90C3B1007E3444 /* HMMainViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HMMainViewController.xib; sourceTree = "<group>"; };
+		907E25951F99AAE400CD1B51 /* HMCustomNavViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HMCustomNavViewController.h; sourceTree = "<group>"; };
+		907E25961F99AAE400CD1B51 /* HMCustomNavViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HMCustomNavViewController.m; sourceTree = "<group>"; };
+		907E25971F99AAE400CD1B51 /* HMCustomNavViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HMCustomNavViewController.xib; sourceTree = "<group>"; };
 		9091F5A41F90564700D4D2F5 /* DDPage.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DDPage.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9091F5A71F90564700D4D2F5 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		9091F5A81F90564700D4D2F5 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -109,6 +114,9 @@
 				90F25B091F94642400CB075E /* HMContentViewController.h */,
 				90F25B0A1F94642400CB075E /* HMContentViewController.m */,
 				90F25B0B1F94642400CB075E /* HMContentViewController.xib */,
+				907E25951F99AAE400CD1B51 /* HMCustomNavViewController.h */,
+				907E25961F99AAE400CD1B51 /* HMCustomNavViewController.m */,
+				907E25971F99AAE400CD1B51 /* HMCustomNavViewController.xib */,
 				9041F0CB1F90C3B1007E3444 /* HMMainViewController.h */,
 				9041F0CC1F90C3B1007E3444 /* HMMainViewController.m */,
 				9041F0CD1F90C3B1007E3444 /* HMMainViewController.xib */,
@@ -210,6 +218,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				907E25991F99AAE400CD1B51 /* HMCustomNavViewController.xib in Resources */,
 				9091F5B41F90564700D4D2F5 /* LaunchScreen.storyboard in Resources */,
 				9091F5C71F9058BA00D4D2F5 /* DDPageViewController.xib in Resources */,
 				9091F5B11F90564700D4D2F5 /* Assets.xcassets in Resources */,
@@ -232,6 +241,7 @@
 				9041F0CA1F909D8F007E3444 /* DDContentViewController.m in Sources */,
 				9041F0C71F908883007E3444 /* UIScrollView+DDPage.m in Sources */,
 				90F25B0C1F94642400CB075E /* HMContentViewController.m in Sources */,
+				907E25981F99AAE400CD1B51 /* HMCustomNavViewController.m in Sources */,
 				9091F5C61F9058BA00D4D2F5 /* DDPageViewController.m in Sources */,
 				90F25B121F949EFE00CB075E /* HMTableViewController.m in Sources */,
 				90F25B071F93087000CB075E /* HMViewController.m in Sources */,

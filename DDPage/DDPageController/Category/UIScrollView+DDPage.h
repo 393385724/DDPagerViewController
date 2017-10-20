@@ -10,6 +10,8 @@
 
 @interface UIScrollView (DDPage)
 
+@property (nonatomic, assign) NSInteger ddPageIndex;
+
 - (CGRect)ddPage_calculateVisibleViewControllerFrameWithIndex:(NSInteger)index;
 
 - (void)ddPage_updateScrollViewContentWith:(CGFloat)width;

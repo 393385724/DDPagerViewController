@@ -10,4 +10,6 @@
 
 @interface HMContentViewController : DDContentViewController
 
+@property (nonatomic, assign) BOOL hidenNavi;
+
 @end

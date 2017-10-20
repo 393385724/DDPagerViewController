@@ -8,6 +8,7 @@
 
 #import "DDContentViewController.h"
 #import "DDPageViewController.h"
+#import "DDPageChildViewControllerProtocol.h"
 
 @interface DDContentViewController ()<DDPageViewControllerDelegate,DDPageViewControllerDataSource>
 
@@ -80,16 +81,88 @@
     return [self.pageViewController currentViewController];
 }
 
-- (UIView *)preferCoverView {
+- (UIView *)pageHeadView {
     return nil;
 }
 
-- (UIView *)pageSegmentView {
+- (UIView *)pageBarView {
     return nil;
+}
+
+- (CGFloat)pageTopSafeArea {
+    return 0;
 }
 
 - (void)switchToIndex:(NSUInteger)index animated:(BOOL)animated {
     [self.pageViewController switchToIndex:index animated:animated];
+}
+
+#pragma mark - Private Methods
+
+- (NSInteger)p_systemStatusBarHeight {
+    CGRect statusBarFrame = [[UIApplication sharedApplication] statusBarFrame];
+    if (![UIApplication sharedApplication].statusBarHidden) {
+        return CGRectGetHeight(statusBarFrame);
+    } else {
+        return 0;
+    }
+}
+
+- (NSInteger)p_systemNavigationBarHeight {
+    CGRect navigationBarFrame = self.navigationController.navigationBar.frame;
+    if (!self.navigationController.isNavigationBarHidden) {
+        return CGRectGetHeight(navigationBarFrame) + [self pageTopSafeArea];
+    } else {
+        return [self pageTopSafeArea];
+    }
+}
+
+- (CGFloat)p_systemDefultTopOffset {
+    return [self p_systemStatusBarHeight] + [self p_systemNavigationBarHeight];
+}
+
+- (CGFloat)p_pageHeadMinTopOffset {
+    if (!self.pageBarView) {
+        return - CGRectGetHeight(self.pageHeadView.frame);
+    } else {
+        return - (CGRectGetHeight(self.pageHeadView.frame) - [self p_systemDefultTopOffset]);
+    }
+}
+
+- (CGFloat)p_pageBarMinTopOffset {
+    return [self p_systemDefultTopOffset];
+}
+
+- (CGFloat)p_childScorllViewDefaultTop {
+    CGFloat defaultTopOffset = [self p_systemNavigationBarHeight];
+    if (self.pageHeadView) {
+        defaultTopOffset += CGRectGetHeight(self.pageHeadView.frame);
+    }
+    if (self.pageBarView) {
+        defaultTopOffset += CGRectGetHeight(self.pageBarView.frame);
+        if (!self.navigationController.isNavigationBarHidden) {
+            defaultTopOffset += [self p_systemStatusBarHeight];
+        }
+    }
+    return defaultTopOffset;
+}
+
+//用于纠正childview 切换，scrollView offset不同问题
+- (void)p_changeSubViewControllerScrollOffset:(UIViewController *)viewController isDelay:(BOOL)isDelay{
+    if (!viewController || [self numberOfViewControllersInPageViewController:self.pageViewController] <= 1) {
+        return;
+    }
+    if (![viewController conformsToProtocol:@protocol(DDPageChildViewControllerProtocol)]) {
+        return;
+    }
+    NSInteger newIndex = [self.pageViewController indexOfViewController:viewController];
+    if (newIndex < 0) {
+        return;
+    }
+    
+    UIScrollView *scrollView = [(UIViewController <DDPageChildViewControllerProtocol> *)viewController preferScrollView];
+    
+    
 }
 
 #pragma mark - DDPageViewControllerDataSource
@@ -109,7 +182,7 @@
 }
 
 - (NSInteger)ddPageViewController:(DDPageViewController *)pageViewController pageTopOffsetAtIndex:(NSInteger)index {
-    return 200 + 44;
+    return [self p_childScorllViewDefaultTop];
 }
 
 - (UIScreenEdgePanGestureRecognizer *)screenEdgePanGestureRecognizerInPageViewController:(DDPageViewController *)pageViewController {
@@ -131,49 +204,72 @@
 - (void)ddPageViewController:(DDPageViewController*)pageViewController
 willTransitionFromViewController:(UIViewController *)fromViewController
             toViewController:(UIViewController *)toViewController {
-    
-}
-
-- (void)ddPageViewController:(DDPageViewController*)pageViewController
-didTransitionFromViewController:(UIViewController *)fromViewController
-            toViewController:(UIViewController *)toViewController {
-    
-}
-
-- (void)ddPageViewController:(DDPageViewController*)pageViewController
-      childDidChangeContentOffsetY:(CGFloat)offsetY
-                   scrollTop:(BOOL)scrollTop {
-    CGRect statusBarFrame = [[UIApplication sharedApplication] statusBarFrame];
-    CGRect navigationBarFrame = self.navigationController.navigationBar.frame;
-    CGFloat defaultTopOffset = _defaultTopOffsetCompensation;
-    defaultTopOffset += ([UIApplication sharedApplication].statusBarHidden ? 0 : CGRectGetHeight(statusBarFrame));
-
-    if (self.preferCoverView) {
-        CGFloat coverViewHeight = CGRectGetHeight(self.preferCoverView.frame);
-        CGFloat scrollViewDefaultOffsetY = defaultTopOffset + coverViewHeight - (self.navigationController.navigationBarHidden ? 0 : CGRectGetHeight(navigationBarFrame)) + 4;
-        CGFloat coverViewTop = -offsetY - scrollViewDefaultOffsetY;
-        
-        CGRect frame = self.preferCoverView.frame;
-        frame.origin.y = coverViewTop;
-        self.preferCoverView.frame = frame;
+    if (!toViewController || [self numberOfViewControllersInPageViewController:self.pageViewController] <= 1) {
+        return;
     }
-    
-    if (self.pageSegmentView) {
-        CGFloat pageSegmentHeight = CGRectGetHeight(self.pageSegmentView.frame);
-        CGFloat scrollViewDefaultOffsetY = defaultTopOffset - pageSegmentHeight + (self.navigationController.navigationBarHidden ? 0 : CGRectGetHeight(navigationBarFrame));;
-        CGFloat pageSegmentTop = offsetY;
-        if (offsetY >= -pageSegmentHeight) {
-            pageSegmentTop = defaultTopOffset;
-        } else {
-            pageSegmentTop = -offsetY + scrollViewDefaultOffsetY;
+    if (![toViewController conformsToProtocol:@protocol(DDPageChildViewControllerProtocol)]) {
+        return;
+    }
+    NSInteger newIndex = [self.pageViewController indexOfViewController:toViewController];
+    if (newIndex < 0) {
+        return;
+    }
+    if (self.pageBarView) {
+        UIScrollView *toscrollView = [(UIViewController <DDPageChildViewControllerProtocol> *)toViewController preferScrollView];
+        CGFloat pageBarViewTop = CGRectGetMinY(self.pageBarView.frame);
+        CGFloat pageViewTop = [self p_pageBarMinTopOffset] + CGRectGetHeight(self.pageBarView.frame);
+        CGFloat scrollOffset = [self p_pageBarMinTopOffset] - pageBarViewTop - pageViewTop;
+        CGFloat offset = toscrollView.contentOffset.y + pageViewTop;
+        CGFloat top = [self p_pageBarMinTopOffset] - (offset);
+        NSLog(@"currentBarTop:%f  scrollOffset:%f",top,scrollOffset);
+        if (top != pageBarViewTop) {
+            toscrollView.contentOffset =  CGPointMake(0, scrollOffset);
         }
-        CGRect frame = self.pageSegmentView.frame;
-        frame.origin.y = pageSegmentTop;
-        self.pageSegmentView.frame = frame;
     }
 }
 
-- (BOOL)shouldRememberPageOffsetInPageViewController:(DDPageViewController *)pageViewController {
+//- (void)ddPageViewController:(DDPageViewController*)pageViewController
+//didTransitionFromViewController:(UIViewController *)fromViewController
+//            toViewController:(UIViewController *)toViewController {
+//    [self p_changeSubViewControllerScrollOffset:toViewController isDelay:NO];
+//}
+
+- (void)ddPageViewController:(DDPageViewController*)pageViewController
+      childDidChangeContentOffsetY:(CGFloat)offsetY {
+    if (self.pageHeadView) {
+        CGFloat pageSegmentTop = offsetY;
+        CGFloat thresholdOffset = -CGRectGetHeight(self.pageHeadView.frame) - [self p_pageHeadMinTopOffset];
+        if (self.pageBarView) {
+            thresholdOffset -= CGRectGetHeight(self.pageBarView.frame);
+        }
+        if (offsetY >= thresholdOffset) {
+            pageSegmentTop = [self p_pageHeadMinTopOffset];
+        } else {
+            if (self.navigationController.isNavigationBarHidden) {
+                pageSegmentTop = [self p_systemNavigationBarHeight] - (offsetY + [self p_childScorllViewDefaultTop]);
+            } else {
+                pageSegmentTop = [self p_systemDefultTopOffset] - (offsetY + [self p_childScorllViewDefaultTop]);
+            }
+        }
+        CGRect frame = self.pageHeadView.frame;
+        frame.origin.y = pageSegmentTop;
+        self.pageHeadView.frame = frame;
+    }
+    if (self.pageBarView) {
+        CGFloat pageSegmentTop = offsetY;
+        if (offsetY >= -[self p_pageBarMinTopOffset] - CGRectGetHeight(self.pageBarView.frame)) {
+            pageSegmentTop = [self p_pageBarMinTopOffset];
+        } else {
+            pageSegmentTop = - offsetY - CGRectGetHeight(self.pageBarView.frame);
+        }
+        CGRect frame = self.pageBarView.frame;
+        frame.origin.y = pageSegmentTop;
+        self.pageBarView.frame = frame;
+        NSLog(@"pageBarView:%@",NSStringFromCGRect(frame));
+    }
+}
+
+- (BOOL)shouldRecoverPageOffsetInPageViewController:(DDPageViewController *)pageViewController {
     return YES;
 }
 

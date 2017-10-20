@@ -27,8 +27,8 @@ typedef NS_ENUM(NSUInteger, DDPageViewControllerNavigationDirection) {
 @property (weak, nonatomic, readwrite) IBOutlet UIScrollView *myScrollView;
 
 @property (nonatomic, strong) NSMutableDictionary <NSNumber *, UIViewController *> *viewControllerCacheDict;
-@property (nonatomic, strong) NSMutableDictionary <NSNumber *, NSNumber *> *childContentSizeDict;
-@property (nonatomic, strong) NSMutableDictionary <NSNumber *, NSNumber *> *childContentOffsetDict;
+@property (nonatomic, strong) NSMutableDictionary <NSNumber *, NSNumber *> *childContentHeightDict;
+@property (nonatomic, strong) NSMutableDictionary <NSNumber *, NSNumber *> *childContentOffsetYDict;
 
 @property (nonatomic, assign) BOOL firstWillLayoutSubViews;
 @property (nonatomic, assign) BOOL firstWillAppear;
@@ -38,6 +38,7 @@ typedef NS_ENUM(NSUInteger, DDPageViewControllerNavigationDirection) {
 
 @property (nonatomic, assign) CGPoint lastContentOffset;
 @property (nonatomic, assign) NSInteger tmpWillSelectedIndex;
+@property (nonatomic, assign) BOOL shouldRecoverChildVerticalOffset;
 
 @end
 
@@ -55,9 +56,7 @@ typedef NS_ENUM(NSUInteger, DDPageViewControllerNavigationDirection) {
     self.myScrollView.pagingEnabled = YES;
     self.myScrollView.showsVerticalScrollIndicator = NO;
     self.myScrollView.showsHorizontalScrollIndicator = NO;
-    
     self.myScrollView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;
-    
     self.firstWillLayoutSubViews = YES;
     
     if ([self.dataSource respondsToSelector:@selector(initViewControllerIndexInPageViewController:)]) {
@@ -89,7 +88,7 @@ typedef NS_ENUM(NSUInteger, DDPageViewControllerNavigationDirection) {
         [self p_updateScrollViewLayoutIfNeed];
         self.firstWillAppear = NO;
     }
-
+    self.shouldRecoverChildVerticalOffset = YES;
     [[self p_viewControllerAtIndex:self.currentSelectedIndex] beginAppearanceTransition:YES animated:animated];
 }
 
@@ -132,9 +131,20 @@ typedef NS_ENUM(NSUInteger, DDPageViewControllerNavigationDirection) {
     return [self p_viewControllerAtIndex:self.currentSelectedIndex];
 }
 
+- (NSInteger)indexOfViewController:(UIViewController *)viewController {
+    for (NSNumber *key in self.viewControllerCacheDict) {
+        if (viewController == self.viewControllerCacheDict[key]) {
+            return [key integerValue];
+        }
+    }
+    return  -1;
+}
+
+
 - (void)reloadPage {
     [self p_reset];
-    [self p_addVisibleViewContorllerWithIndex:self.currentSelectedIndex];
+    UIViewController *currentViewController = [self p_viewControllerAtIndex:self.currentSelectedIndex];
+    [self p_addVisibleViewContorller:currentViewController];
     [self p_updateScrollViewLayoutIfNeed];
     [self switchToIndex:self.currentSelectedIndex animated:YES];
 }
@@ -152,17 +162,19 @@ typedef NS_ENUM(NSUInteger, DDPageViewControllerNavigationDirection) {
         NSLog(@"[WARN] switchToIndex:%lu same to current index:%ld",(unsigned long)index,(long)self.currentSelectedIndex);
         return;
     }
+    self.shouldRecoverChildVerticalOffset = NO;
+
     NSInteger oldSelectIndex = self.lastSelectedIndex;
     self.lastSelectedIndex = self.currentSelectedIndex;
     self.currentSelectedIndex = index;
     
     UIViewController *fromViewController = [self p_viewControllerAtIndex:self.lastSelectedIndex];
     UIViewController *toViewController = [self p_viewControllerAtIndex:self.currentSelectedIndex];
-    if ([self.delegate respondsToSelector:@selector(ddPageViewController:willTransitionFromViewController:toViewController:)]) {
-        [self.delegate ddPageViewController:self willTransitionFromViewController:fromViewController toViewController:toViewController];
-    }
     
     [self p_addVisibleViewContorller:toViewController];
+    
+    [self p_willTransitionFromViewController:fromViewController toViewController:toViewController];
+
     [self switchBegainFrom:self.lastSelectedIndex toIndex:self.currentSelectedIndex animated:animated];
     
     if (animated && self.currentSelectedIndex != self.lastSelectedIndex) {
@@ -254,9 +266,7 @@ typedef NS_ENUM(NSUInteger, DDPageViewControllerNavigationDirection) {
     if (fromIndex != toIndex && fromViewController) {
         [fromViewController endAppearanceTransition];
     }
-    if ([self.delegate respondsToSelector:@selector(ddPageViewController:didTransitionFromViewController:toViewController:)]) {
-        [self.delegate ddPageViewController:self didTransitionFromViewController:fromViewController toViewController:toViewController];
-    }
+    [self p_didTransitionFromViewController:fromViewController toViewController:toViewController];
 }
 
 #pragma mark - Private Methods
@@ -335,12 +345,12 @@ typedef NS_ENUM(NSUInteger, DDPageViewControllerNavigationDirection) {
 
 - (void)p_updateScrollViewDisplayIndexIfNeed{
     if (self.myScrollView.frame.size.width > 0)  {
-        [self p_addVisibleViewContorllerWithIndex:self.currentSelectedIndex];
+        UIViewController *viewController = [self p_viewControllerAtIndex:self.currentSelectedIndex];
+        [self p_addVisibleViewContorller:viewController];
         CGPoint newOffset = [self.myScrollView ddPage_calculateOffsetWithIndex:self.currentSelectedIndex width:self.myScrollView.frame.size.width maxWidth:self.myScrollView.contentSize.width];
         if (newOffset.x != self.myScrollView.contentOffset.x || newOffset.y != self.myScrollView.contentOffset.y) {
             self.myScrollView.contentOffset = newOffset;
         }
-        UIViewController *viewController = [self p_viewControllerAtIndex:self.currentSelectedIndex];
         viewController.view.frame = [self.myScrollView ddPage_calculateVisibleViewControllerFrameWithIndex:self.currentSelectedIndex];
     }
 }
@@ -363,6 +373,27 @@ typedef NS_ENUM(NSUInteger, DDPageViewControllerNavigationDirection) {
         CGRect newFrame = destView.frame;
         newFrame.origin = originPostion;
         destView.frame = newFrame;
+    }
+}
+
+- (void)p_willTransitionFromViewController:(UIViewController *)fromViewController
+                          toViewController:(UIViewController *)toViewController {
+    self.shouldRecoverChildVerticalOffset = YES;
+    if ([self.delegate respondsToSelector:@selector(ddPageViewController:willTransitionFromViewController:toViewController:)]) {
+        [self.delegate ddPageViewController:self willTransitionFromViewController:fromViewController toViewController:toViewController];
+    }
+}
+
+- (void)p_didTransitionFromViewController:(UIViewController *)fromViewController
+                         toViewController:(UIViewController *)toViewController {
+    if ([fromViewController conformsToProtocol:@protocol(DDPageChildViewControllerProtocol) ]) {
+        [(UIViewController <DDPageChildViewControllerProtocol>*)fromViewController preferScrollView].scrollsToTop = NO;
+    }
+    if ([toViewController conformsToProtocol:@protocol(DDPageChildViewControllerProtocol) ]) {
+        [(UIViewController <DDPageChildViewControllerProtocol>*)toViewController preferScrollView].scrollsToTop = YES;
+    }
+    if ([self.delegate respondsToSelector:@selector(ddPageViewController:didTransitionFromViewController:toViewController:)]) {
+        [self.delegate ddPageViewController:self didTransitionFromViewController:fromViewController toViewController:toViewController];
     }
 }
 
@@ -396,12 +427,13 @@ typedef NS_ENUM(NSUInteger, DDPageViewControllerNavigationDirection) {
             return;
         }
         if (self.tmpWillSelectedIndex != tmpLastWillSelectedIndex && self.tmpWillSelectedIndex != self.currentSelectedIndex) {
+            self.shouldRecoverChildVerticalOffset = NO;
+            
             UIViewController *fromViewController = [self p_viewControllerAtIndex:self.currentSelectedIndex];
             UIViewController *toViewController = [self p_viewControllerAtIndex:self.tmpWillSelectedIndex];
             
-            if ([self.delegate respondsToSelector:@selector(ddPageViewController:willTransitionFromViewController:toViewController:)]) {
-                [self.delegate ddPageViewController:self willTransitionFromViewController:fromViewController toViewController:toViewController];
-            }
+            [self p_willTransitionFromViewController:fromViewController toViewController:toViewController];
+
             [toViewController beginAppearanceTransition:YES animated:YES];
             if (tmpLastWillSelectedIndex == self.currentSelectedIndex) {
                 [fromViewController beginAppearanceTransition:NO animated:YES];
@@ -438,18 +470,16 @@ typedef NS_ENUM(NSUInteger, DDPageViewControllerNavigationDirection) {
                 [oldViewController endAppearanceTransition];
                 [lastGuessViewController beginAppearanceTransition:NO animated:YES];
                 [lastGuessViewController endAppearanceTransition];
-                if ([self.delegate respondsToSelector:@selector(ddPageViewController:didTransitionFromViewController:toViewController:)]) {
-                    [self.delegate ddPageViewController:self didTransitionFromViewController:oldViewController toViewController:lastGuessViewController];
-                }
+
+                [self p_didTransitionFromViewController:oldViewController toViewController:lastGuessViewController];
             }
         } else {
             UIViewController *newViewController = [self p_viewControllerAtIndex:newIndex];
             UIViewController *oldViewController = [self p_viewControllerAtIndex:oldIndex];
             [newViewController endAppearanceTransition];
             [oldViewController endAppearanceTransition];
-            if ([self.delegate respondsToSelector:@selector(ddPageViewController:didTransitionFromViewController:toViewController:)]) {
-                [self.delegate ddPageViewController:self didTransitionFromViewController:oldViewController toViewController:newViewController];
-            }
+            
+            [self p_didTransitionFromViewController:oldViewController toViewController:newViewController];
         }
         self.tmpWillSelectedIndex = self.currentSelectedIndex;
         self.lastContentOffset = scrollView.contentOffset;
@@ -473,14 +503,15 @@ typedef NS_ENUM(NSUInteger, DDPageViewControllerNavigationDirection) {
 
 - (void)p_bindViewController:(UIViewController<DDPageChildViewControllerProtocol> *)viewController withIndex:(NSInteger)index{
     UIScrollView *scrollView = [viewController preferScrollView];
-    scrollView.tag = index;
+    scrollView.scrollsToTop = NO;
+    scrollView.ddPageIndex = index;
     [scrollView addObserver:self forKeyPath:@"contentOffset" options:NSKeyValueObservingOptionInitial | NSKeyValueObservingOptionNew context:nil];
     [scrollView addObserver:self forKeyPath:@"contentSize" options:NSKeyValueObservingOptionInitial | NSKeyValueObservingOptionNew context:nil];
     
     if ([self.dataSource respondsToSelector:@selector(ddPageViewController:pageTopOffsetAtIndex:)]) {
         UIEdgeInsets contentInset = scrollView.contentInset;
-        CGFloat offsetX = [self.dataSource ddPageViewController:self pageTopOffsetAtIndex:index];
-        scrollView.contentInset =  UIEdgeInsetsMake(offsetX, contentInset.left, contentInset.bottom, contentInset.right);
+        CGFloat offsetY = [self.dataSource ddPageViewController:self pageTopOffsetAtIndex:index];
+        scrollView.contentInset =  UIEdgeInsetsMake(offsetY, contentInset.left, contentInset.bottom, contentInset.right);
 #ifdef __IPHONE_11_0
         if (@available(iOS 11.0, *)) {
             scrollView.contentInsetAdjustmentBehavior =  UIScrollViewContentInsetAdjustmentNever;
@@ -494,28 +525,43 @@ typedef NS_ENUM(NSUInteger, DDPageViewControllerNavigationDirection) {
                         change:(NSDictionary *)change
                        context:(void *)context{
     UIScrollView *scrollView = object;
-    NSInteger index = scrollView.tag;
+    NSInteger index = scrollView.ddPageIndex;
 
     if ([keyPath isEqualToString:@"contentOffset"]) {
-        CGFloat lastContentOffsetY = [self.childContentOffsetDict[@(index)] floatValue];
+        if (scrollView.contentSize.height == 0) {
+            return;
+        }
+        BOOL shouldScrollWithPageOffset = YES;
+        if (self.delegate && [self.delegate respondsToSelector:@selector(shouldScrollWithPageOffsetInPageViewController:)]) {
+            shouldScrollWithPageOffset = [self.delegate shouldRecoverPageOffsetInPageViewController:self];
+        }
+        if (!shouldScrollWithPageOffset || !self.shouldRecoverChildVerticalOffset) {
+            return;
+        }
+        NSLog(@"contentOffset:%f",scrollView.contentOffset.y);
+        
         CGFloat currentContentOffsetY = scrollView.contentOffset.y;
-        self.childContentOffsetDict[@(index)] = @(currentContentOffsetY);
-        BOOL scrollTop = lastContentOffsetY <= currentContentOffsetY ? YES : NO;
-        if (self.delegate && [self.delegate respondsToSelector:@selector(ddPageViewController:childDidChangeContentOffsetY:scrollTop:)]) {
-            [self.delegate ddPageViewController:self childDidChangeContentOffsetY:currentContentOffsetY scrollTop:scrollTop];
+        NSNumber *currentContentHeight = self.childContentHeightDict[@(index)];
+        if (currentContentHeight && ceil([currentContentHeight floatValue]) == ceil(scrollView.contentSize.height)) {
+            self.childContentOffsetYDict[@(index)] = @(currentContentOffsetY);
+        }
+        if (self.delegate && [self.delegate respondsToSelector:@selector(ddPageViewController:childDidChangeContentOffsetY:)]) {
+            [self.delegate ddPageViewController:self childDidChangeContentOffsetY:currentContentOffsetY];
         }
     } else if ([keyPath isEqualToString:@"contentSize"]) {
-        if (self.childContentSizeDict[@(index)] && (ceil([self.childContentSizeDict[@(index)] floatValue]) != ceil(scrollView.contentSize.height))) {
-            self.childContentSizeDict[@(index)] = @(scrollView.contentSize.height);
-            BOOL shouldRecoverLastOffset = YES;
-            if (!self.delegate || [self.delegate respondsToSelector:@selector(shouldRememberPageOffsetInPageViewController:)]) {
-                shouldRecoverLastOffset = [self.delegate shouldRememberPageOffsetInPageViewController:self];
-            }
-            if (self.childContentOffsetDict[@(index)] && shouldRecoverLastOffset) {
-                scrollView.contentOffset = CGPointMake(0, [self.childContentOffsetDict[@(index)] floatValue]);
+        if (scrollView.contentSize.height == 0) {
+            return;
+        }
+        NSNumber *lastContentHeight = self.childContentHeightDict[@(index)];
+        CGFloat currentContentHeigt = ceil(scrollView.contentSize.height);
+        if (lastContentHeight && (ceil([lastContentHeight floatValue]) != ceil(currentContentHeigt))) {
+            self.childContentHeightDict[@(index)] = @(currentContentHeigt);
+            NSNumber *lastContentOffsetY = self.childContentOffsetYDict[@(index)];
+            if (lastContentOffsetY) {
+                scrollView.contentOffset = CGPointMake(0, [lastContentOffsetY floatValue]);
             }
         } else {
-            self.childContentSizeDict[@(index)] = @(scrollView.contentSize.height);
+            self.childContentHeightDict[@(index)] = @(currentContentHeigt);
         }
     }
 }
@@ -529,18 +575,18 @@ typedef NS_ENUM(NSUInteger, DDPageViewControllerNavigationDirection) {
     return _viewControllerCacheDict;
 }
 
-- (NSMutableDictionary<NSNumber *,NSNumber *> *)childContentSizeDict {
-    if (!_childContentSizeDict) {
-        _childContentSizeDict = [[NSMutableDictionary alloc] init];
+- (NSMutableDictionary<NSNumber *,NSNumber *> *)childContentHeightDict {
+    if (!_childContentHeightDict) {
+        _childContentHeightDict = [[NSMutableDictionary alloc] init];
     }
-    return _childContentSizeDict;
+    return _childContentHeightDict;
 }
 
-- (NSMutableDictionary<NSNumber *,NSNumber *> *)childContentOffsetDict {
-    if (!_childContentOffsetDict) {
-        _childContentOffsetDict = [[NSMutableDictionary alloc] init];
+- (NSMutableDictionary<NSNumber *,NSNumber *> *)childContentOffsetYDict {
+    if (!_childContentOffsetYDict) {
+        _childContentOffsetYDict = [[NSMutableDictionary alloc] init];
     }
-    return _childContentOffsetDict;
+    return _childContentOffsetYDict;
 }
 
 @end

@@ -16,12 +16,7 @@
     BOOL _scrollEnable;
     //是否有bounces效果， 默认NO
     BOOL _bounces;
-    
-    //默认垂直方向，偏移补偿，默认0
-    CGFloat _defaultTopOffsetCompensation;
 }
-
-@property (nonatomic, strong) NSMutableArray *topViews;
 
 /**
  不设置，默认0
@@ -35,15 +30,6 @@
  */
 - (UIViewController *)currentChildViewController;
 
-- (UIView *)preferCoverView;
-
-/**
- 页面选项, 默认nil
-
- @return UIView
- */
-- (UIView *)pageSegmentView;
-
 /**
  *  @brief  切换显示的页面
  *
@@ -51,5 +37,27 @@
  *  @param animated 是否需要动画
  */
 - (void)switchToIndex:(NSUInteger)index animated:(BOOL)animated;
+
+
+/**
+ 页面顶部安全区域，默认0，自定义页面需要使用该值
+
+ @return CGFloat
+ */
+- (CGFloat)pageTopSafeArea;
+
+/**
+ 跟随页面走的
+
+ @return UIView
+ */
+- (UIView *)pageHeadView;
+
+/**
+ 页面选项View,实现的话会类似于TableView的Header会悬浮, 默认nil
+ 
+ @return UIView
+ */
+- (UIView *)pageBarView;
 
 @end

@@ -8,6 +8,7 @@
 
 #import "HMMainViewController.h"
 #import "HMContentViewController.h"
+#import "HMCustomNavViewController.h"
 
 @interface HMMainViewController ()
 
@@ -22,6 +23,12 @@
 
 - (IBAction)buttonAction:(id)sender {
     HMContentViewController *viewController = [[HMContentViewController alloc] init];
+    [self.navigationController pushViewController:viewController animated:YES];
+}
+
+
+- (IBAction)customNavButtonAction:(id)sender {
+    HMCustomNavViewController *viewController = [[HMCustomNavViewController alloc] init];
     [self.navigationController pushViewController:viewController animated:YES];
 }
 

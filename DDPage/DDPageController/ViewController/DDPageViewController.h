@@ -19,9 +19,10 @@
 
 - (UIViewController *)currentViewController;
 
+- (NSInteger)indexOfViewController:(UIViewController *)viewController;
+
 - (void)reloadPage;
 
 - (void)switchToIndex:(NSUInteger)index animated:(BOOL)animated;
-
 
 @end

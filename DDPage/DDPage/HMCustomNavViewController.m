@@ -1,49 +1,33 @@
 //
-//  HMContentViewController.m
+//  HMCustomNavViewController.m
 //  DDPage
 //
-//  Created by 李林刚 on 2017/10/16.
+//  Created by 李林刚 on 2017/10/20.
 //  Copyright © 2017年 huami. All rights reserved.
 //
 
-#import "HMContentViewController.h"
+#import "HMCustomNavViewController.h"
 #import "HMTableViewController.h"
 
-@interface HMContentViewController ()
-@property (weak, nonatomic) IBOutlet UIView *coverView;
+@interface HMCustomNavViewController ()
 
-@property (weak, nonatomic) IBOutlet UIView *segmentView;
-
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *coverTopConstraint;
 @end
 
-@implementation HMContentViewController
+@implementation HMCustomNavViewController
 
 - (instancetype)init {
     self = [super init];
     if (self) {
         _bounces = YES;
+        _containerEdgeInset = UIEdgeInsetsMake(64, 0, 0, 0);
     }
     return self;
 }
 
+
 - (void)viewDidLoad {
     [super viewDidLoad];
-//    self.segmentView.hidden = YES;
-    self.coverTopConstraint.constant = self.hidenNavi ? 0 : 64;
-}
-
-- (void)viewWillAppear:(BOOL)animated {
-    [self.navigationController setNavigationBarHidden:self.hidenNavi animated:animated];
-    [super viewWillAppear:animated];
-}
-
--(UIView *)pageHeadView {
-    return self.coverView;
-}
-
-- (UIView *)pageBarView {
-    return _segmentView;
+    // Do any additional setup after loading the view from its nib.
 }
 
 - (IBAction)buttonAction:(UIButton *)sender {
@@ -69,7 +53,7 @@
     }
     if (page == 2) {
         viewController.view.backgroundColor = [UIColor greenColor];
-        viewController.number = 5;
+        viewController.number = 100;
     }
     if (page == 3) {
         viewController.view.backgroundColor = [UIColor blueColor];
@@ -96,5 +80,6 @@
     }
     return viewController;
 }
+
 
 @end

@@ -30,11 +30,24 @@
                         <action selector="buttonAction:" destination="-1" eventType="touchUpInside" id="dg7-OD-U0u"/>
                     </connections>
                 </button>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Wsr-b0-Tbj">
+                    <rect key="frame" x="0.0" y="194" width="375" height="50"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="50" id="h8B-k1-Q08"/>
+                    </constraints>
+                    <state key="normal" title="Button"/>
+                    <connections>
+                        <action selector="customNavButtonAction:" destination="-1" eventType="touchUpInside" id="LSp-E1-MbY"/>
+                    </connections>
+                </button>
             </subviews>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
                 <constraint firstItem="LMc-Cu-uOT" firstAttribute="top" secondItem="Q5M-cg-NOt" secondAttribute="top" constant="100" id="41d-zH-W5M"/>
+                <constraint firstItem="Wsr-b0-Tbj" firstAttribute="leading" secondItem="Q5M-cg-NOt" secondAttribute="leading" id="9G5-tK-A5M"/>
+                <constraint firstItem="Q5M-cg-NOt" firstAttribute="trailing" secondItem="Wsr-b0-Tbj" secondAttribute="trailing" id="UzM-Yn-ZGd"/>
                 <constraint firstItem="LMc-Cu-uOT" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="YWz-yl-P8j"/>
+                <constraint firstItem="Wsr-b0-Tbj" firstAttribute="top" secondItem="LMc-Cu-uOT" secondAttribute="bottom" constant="30" id="kmq-YE-MSZ"/>
             </constraints>
             <viewLayoutGuide key="safeArea" id="Q5M-cg-NOt"/>
         </view>

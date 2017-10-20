@@ -7,6 +7,9 @@
 //
 
 #import "UIScrollView+DDPage.h"
+#import <objc/runtime.h>
+
+static const void *DDPageScrollViewPageIndexKey = &DDPageScrollViewPageIndexKey;
 
 @implementation UIScrollView (DDPage)
 
@@ -40,6 +43,16 @@
         offsetX = maxWidth - width;
     }
     return CGPointMake(offsetX, 0);
+}
+
+#pragma mark -  Getter and Setter
+
+- (NSInteger)ddPageIndex {
+    return [objc_getAssociatedObject(self, DDPageScrollViewPageIndexKey) integerValue];
+}
+
+- (void)setDdPageIndex:(NSInteger)ddPageIndex {
+    objc_setAssociatedObject(self, DDPageScrollViewPageIndexKey, @(ddPageIndex), OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 
 @end

@@ -28,11 +28,16 @@
 - (NSInteger)ddPageViewController:(DDPageViewController*)pageViewController
              pageTopOffsetAtIndex:(NSInteger)index;
 
+- (NSInteger)shouldScrollWithPageOffsetInPageViewController:(DDPageViewController*)pageViewController;
+
 @end
 
 @protocol DDPageViewControllerDelegate <NSObject>
 
 @optional
+
+- (void)ddPageViewController:(DDPageViewController*)pageViewController
+       didLoadViewController:(UIViewController *)fromViewController;
 
 - (void)ddPageViewController:(DDPageViewController*)pageViewController
 willTransitionFromViewController:(UIViewController *)fromViewController
@@ -46,9 +51,8 @@ didTransitionFromViewController:(UIViewController *)fromViewController
       didChangeContentOffset:(UIScrollView *)scrollView;
 
 - (void)ddPageViewController:(DDPageViewController*)pageViewController
-childDidChangeContentOffsetY:(CGFloat)offsetY
-                   scrollTop:(BOOL)scrollTop;
+childDidChangeContentOffsetY:(CGFloat)offsetY;
 
-- (BOOL)shouldRememberPageOffsetInPageViewController:(DDPageViewController *)pageViewController;
+- (BOOL)shouldRecoverPageOffsetInPageViewController:(DDPageViewController *)pageViewController;
 
 @end
