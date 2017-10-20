@@ -25,7 +25,6 @@
 		90F25B0C1F94642400CB075E /* HMContentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 90F25B0A1F94642400CB075E /* HMContentViewController.m */; };
 		90F25B0D1F94642400CB075E /* HMContentViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 90F25B0B1F94642400CB075E /* HMContentViewController.xib */; };
 		90F25B121F949EFE00CB075E /* HMTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 90F25B101F949EFE00CB075E /* HMTableViewController.m */; };
-		90F25B131F949EFE00CB075E /* HMTableViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 90F25B111F949EFE00CB075E /* HMTableViewController.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -60,7 +59,6 @@
 		90F25B0E1F94998A00CB075E /* DDPageViewControllerProtocol.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DDPageViewControllerProtocol.h; sourceTree = "<group>"; };
 		90F25B0F1F949EFE00CB075E /* HMTableViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HMTableViewController.h; sourceTree = "<group>"; };
 		90F25B101F949EFE00CB075E /* HMTableViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HMTableViewController.m; sourceTree = "<group>"; };
-		90F25B111F949EFE00CB075E /* HMTableViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HMTableViewController.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -107,7 +105,6 @@
 				9091F5A81F90564700D4D2F5 /* AppDelegate.m */,
 				90F25B0F1F949EFE00CB075E /* HMTableViewController.h */,
 				90F25B101F949EFE00CB075E /* HMTableViewController.m */,
-				90F25B111F949EFE00CB075E /* HMTableViewController.xib */,
 				90F25B041F93087000CB075E /* HMViewController.h */,
 				90F25B051F93087000CB075E /* HMViewController.m */,
 				90F25B061F93087000CB075E /* HMViewController.xib */,
@@ -225,7 +222,6 @@
 				9041F0CF1F90C3B1007E3444 /* HMMainViewController.xib in Resources */,
 				90F25B0D1F94642400CB075E /* HMContentViewController.xib in Resources */,
 				9091F5AF1F90564700D4D2F5 /* Main.storyboard in Resources */,
-				90F25B131F949EFE00CB075E /* HMTableViewController.xib in Resources */,
 				90F25B081F93087000CB075E /* HMViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

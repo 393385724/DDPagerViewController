@@ -29,7 +29,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-//    self.segmentView.hidden = YES;
+    self.segmentView.hidden = YES;
     self.coverTopConstraint.constant = self.hidenNavi ? 0 : 64;
 }
 
@@ -42,9 +42,9 @@
     return self.coverView;
 }
 
-- (UIView *)pageBarView {
-    return _segmentView;
-}
+//- (UIView *)pageBarView {
+//    return _segmentView;
+//}
 
 - (IBAction)buttonAction:(UIButton *)sender {
     [self switchToIndex:sender.tag animated:YES];

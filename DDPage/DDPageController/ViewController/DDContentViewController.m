@@ -148,21 +148,28 @@
 }
 
 //用于纠正childview 切换，scrollView offset不同问题
-- (void)p_changeSubViewControllerScrollOffset:(UIViewController *)viewController isDelay:(BOOL)isDelay{
-    if (!viewController || [self numberOfViewControllersInPageViewController:self.pageViewController] <= 1) {
+- (void)p_changeSubViewController:(UIViewController *)toViewController isDelay:(BOOL)isDelay{
+    if (!toViewController || [self numberOfViewControllersInPageViewController:self.pageViewController] <= 1) {
         return;
     }
-    if (![viewController conformsToProtocol:@protocol(DDPageChildViewControllerProtocol)]) {
+    if (![toViewController conformsToProtocol:@protocol(DDPageChildViewControllerProtocol)]) {
         return;
     }
-    NSInteger newIndex = [self.pageViewController indexOfViewController:viewController];
+    NSInteger newIndex = [self.pageViewController indexOfViewController:toViewController];
     if (newIndex < 0) {
         return;
     }
-    
-    UIScrollView *scrollView = [(UIViewController <DDPageChildViewControllerProtocol> *)viewController preferScrollView];
-    
-    
+    if (self.pageBarView) {
+        UIScrollView *toscrollView = [(UIViewController <DDPageChildViewControllerProtocol> *)toViewController preferScrollView];
+        CGFloat pageBarViewTop = CGRectGetMinY(self.pageBarView.frame);
+        CGFloat pageViewTop = [self p_pageBarMinTopOffset] + CGRectGetHeight(self.pageBarView.frame);
+        CGFloat scrollOffset = [self p_pageBarMinTopOffset] - pageBarViewTop - pageViewTop;
+        CGFloat offset = toscrollView.contentOffset.y + pageViewTop;
+        CGFloat top = [self p_pageBarMinTopOffset] - (offset);
+        if (top != pageBarViewTop) {
+            toscrollView.contentOffset =  CGPointMake(0, scrollOffset);
+        }
+    }
 }
 
 #pragma mark - DDPageViewControllerDataSource
@@ -204,35 +211,15 @@
 - (void)ddPageViewController:(DDPageViewController*)pageViewController
 willTransitionFromViewController:(UIViewController *)fromViewController
             toViewController:(UIViewController *)toViewController {
-    if (!toViewController || [self numberOfViewControllersInPageViewController:self.pageViewController] <= 1) {
-        return;
-    }
-    if (![toViewController conformsToProtocol:@protocol(DDPageChildViewControllerProtocol)]) {
-        return;
-    }
-    NSInteger newIndex = [self.pageViewController indexOfViewController:toViewController];
-    if (newIndex < 0) {
-        return;
-    }
-    if (self.pageBarView) {
-        UIScrollView *toscrollView = [(UIViewController <DDPageChildViewControllerProtocol> *)toViewController preferScrollView];
-        CGFloat pageBarViewTop = CGRectGetMinY(self.pageBarView.frame);
-        CGFloat pageViewTop = [self p_pageBarMinTopOffset] + CGRectGetHeight(self.pageBarView.frame);
-        CGFloat scrollOffset = [self p_pageBarMinTopOffset] - pageBarViewTop - pageViewTop;
-        CGFloat offset = toscrollView.contentOffset.y + pageViewTop;
-        CGFloat top = [self p_pageBarMinTopOffset] - (offset);
-        NSLog(@"currentBarTop:%f  scrollOffset:%f",top,scrollOffset);
-        if (top != pageBarViewTop) {
-            toscrollView.contentOffset =  CGPointMake(0, scrollOffset);
-        }
-    }
+    [self p_changeSubViewController:toViewController isDelay:NO];
+    
 }
 
-//- (void)ddPageViewController:(DDPageViewController*)pageViewController
-//didTransitionFromViewController:(UIViewController *)fromViewController
-//            toViewController:(UIViewController *)toViewController {
-//    [self p_changeSubViewControllerScrollOffset:toViewController isDelay:NO];
-//}
+- (void)ddPageViewController:(DDPageViewController*)pageViewController
+didTransitionFromViewController:(UIViewController *)fromViewController
+            toViewController:(UIViewController *)toViewController {
+    
+}
 
 - (void)ddPageViewController:(DDPageViewController*)pageViewController
       childDidChangeContentOffsetY:(CGFloat)offsetY {
@@ -265,12 +252,7 @@ willTransitionFromViewController:(UIViewController *)fromViewController
         CGRect frame = self.pageBarView.frame;
         frame.origin.y = pageSegmentTop;
         self.pageBarView.frame = frame;
-        NSLog(@"pageBarView:%@",NSStringFromCGRect(frame));
     }
-}
-
-- (BOOL)shouldRecoverPageOffsetInPageViewController:(DDPageViewController *)pageViewController {
-    return YES;
 }
 
 @end

@@ -9,7 +9,9 @@
 #import "HMTableViewController.h"
 #import "HMContentViewController.h"
 
-@interface HMTableViewController ()
+@interface HMTableViewController ()<UITableViewDelegate,UITableViewDataSource>
+
+@property (nonatomic, strong) UITableView *tableView;
 
 @end
 
@@ -21,17 +23,13 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.tableView = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStylePlain];
+    self.tableView.dataSource = self;
+    self.tableView.delegate = self;
     self.tableView.backgroundView = nil;
     self.tableView.backgroundColor = [UIColor clearColor];
+    [self.view addSubview:self.tableView];
     [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:@"UITableViewCell"];
-
-    self.navigationItem.largeTitleDisplayMode = UINavigationItemLargeTitleDisplayModeNever;
-    self.tableView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;
-    self.tableView.insetsLayoutMarginsFromSafeArea = NO;
-    self.tableView.estimatedRowHeight = 0;
-    self.tableView.estimatedSectionHeaderHeight = 0;
-    self.tableView.estimatedSectionFooterHeight = 0;
-    self.tableView.separatorInsetReference = UITableViewSeparatorInsetFromAutomaticInsets;
     
 }
 

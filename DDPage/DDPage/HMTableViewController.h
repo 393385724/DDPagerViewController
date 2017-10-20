@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "DDPageChildViewControllerProtocol.h"
 
-@interface HMTableViewController : UITableViewController<DDPageChildViewControllerProtocol>
+@interface HMTableViewController : UIViewController<DDPageChildViewControllerProtocol>
 
 @property (nonatomic, assign) NSInteger number;
 
