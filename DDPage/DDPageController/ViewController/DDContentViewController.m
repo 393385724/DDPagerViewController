@@ -18,6 +18,11 @@
 
 @implementation DDContentViewController
 
+- (void)dealloc {
+    self.pageViewController.delegate = nil;
+    self.pageViewController.dataSource = nil;
+}
+
 - (instancetype)init {
     self = [super init];
     if (self) {
@@ -45,6 +50,7 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     [self.pageViewController beginAppearanceTransition:YES animated:animated];
+    [self.navigationItem setHidesBackButton:self.currentChildViewController.navigationItem.hidesBackButton animated:animated];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -71,8 +77,32 @@
     }
 }
 
+#pragma mark - Navigation & Status Bar
+
+- (BOOL)prefersStatusBarHidden{
+    return [self.currentChildViewController prefersStatusBarHidden];
+}
+
+- (UIStatusBarStyle)preferredStatusBarStyle{
+    return [self.currentChildViewController preferredStatusBarStyle];
+}
+
 - (BOOL)shouldAutomaticallyForwardAppearanceMethods{
     return NO;
+}
+
+#pragma mark - Rotate
+
+- (BOOL)shouldAutorotate{
+    return self.currentChildViewController.shouldAutorotate;
+}
+
+- (UIInterfaceOrientationMask)supportedInterfaceOrientations{
+    return self.currentChildViewController.supportedInterfaceOrientations;
+}
+
+- (UIInterfaceOrientation)preferredInterfaceOrientationForPresentation{
+    return self.currentChildViewController.preferredInterfaceOrientationForPresentation;
 }
 
 #pragma mark - Public Methods
@@ -134,15 +164,12 @@
 }
 
 - (CGFloat)p_childScorllViewDefaultTop {
-    CGFloat defaultTopOffset = [self p_systemNavigationBarHeight];
+    CGFloat defaultTopOffset = [self p_systemNavigationBarHeight] + [self p_systemStatusBarHeight];
     if (self.pageHeadView) {
         defaultTopOffset += CGRectGetHeight(self.pageHeadView.frame);
     }
     if (self.pageBarView) {
         defaultTopOffset += CGRectGetHeight(self.pageBarView.frame);
-        if (!self.navigationController.isNavigationBarHidden) {
-            defaultTopOffset += [self p_systemStatusBarHeight];
-        }
     }
     return defaultTopOffset;
 }
@@ -192,20 +219,6 @@
     return [self p_childScorllViewDefaultTop];
 }
 
-- (UIScreenEdgePanGestureRecognizer *)screenEdgePanGestureRecognizerInPageViewController:(DDPageViewController *)pageViewController {
-    UIScreenEdgePanGestureRecognizer *screenEdgePanGestureRecognizer = nil;
-    if (self.navigationController.view.gestureRecognizers.count > 0){
-        for (UIGestureRecognizer *recognizer in self.navigationController.view.gestureRecognizers){
-            if ([recognizer isKindOfClass:[UIScreenEdgePanGestureRecognizer class]]){
-                screenEdgePanGestureRecognizer = (UIScreenEdgePanGestureRecognizer *)recognizer;
-                break;
-            }
-        }
-    }
-    return screenEdgePanGestureRecognizer;
-}
-
-
 #pragma mark - DDPageViewControllerDelegate
 
 - (void)ddPageViewController:(DDPageViewController*)pageViewController
@@ -218,7 +231,38 @@ willTransitionFromViewController:(UIViewController *)fromViewController
 - (void)ddPageViewController:(DDPageViewController*)pageViewController
 didTransitionFromViewController:(UIViewController *)fromViewController
             toViewController:(UIViewController *)toViewController {
+    if (toViewController.navigationItem.leftBarButtonItems) {
+        self.navigationItem.leftBarButtonItems = toViewController.navigationItem.leftBarButtonItems;
+    } else {
+        self.navigationItem.leftBarButtonItems = nil;
+        if (toViewController.navigationItem.leftBarButtonItem) {
+            self.navigationItem.leftBarButtonItem = toViewController.navigationItem.leftBarButtonItem;
+        } else {
+            self.navigationItem.leftBarButtonItem = nil;
+        }
+    }
     
+    if (toViewController.navigationItem.rightBarButtonItems) {
+        self.navigationItem.rightBarButtonItems = toViewController.navigationItem.rightBarButtonItems;
+    } else {
+        self.navigationItem.rightBarButtonItems = nil;
+        if (toViewController.navigationItem.rightBarButtonItem) {
+            self.navigationItem.rightBarButtonItem = toViewController.navigationItem.rightBarButtonItem;
+        } else {
+            self.navigationItem.rightBarButtonItem = nil;
+        }
+    }
+    
+    [self.navigationItem setHidesBackButton:toViewController.navigationItem.hidesBackButton animated:NO];
+    
+    //控制StatusBar的状态
+    UIStatusBarStyle barStyle = [self preferredStatusBarStyle];
+    [self.navigationController.navigationBar setBarStyle:barStyle == UIStatusBarStyleDefault ? UIBarStyleDefault : UIBarStyleBlack];
+    [self setNeedsStatusBarAppearanceUpdate];
+    
+    //控制NavigationBar隐藏显示
+    [self.navigationController setNavigationBarHidden:toViewController.navigationController.isNavigationBarHidden animated:YES];
+    [self.navigationItem setHidesBackButton:YES animated:YES];
 }
 
 - (void)ddPageViewController:(DDPageViewController*)pageViewController

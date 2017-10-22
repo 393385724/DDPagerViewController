@@ -5,6 +5,7 @@
 //  Created by 李林刚 on 2017/10/13.
 //  Copyright © 2017年 huami. All rights reserved.
 //
+// 子类的ScrollView最好手动创建
 
 #import <UIKit/UIKit.h>
 #import "DDPageViewControllerProtocol.h"

@@ -57,7 +57,11 @@ typedef NS_ENUM(NSUInteger, DDPageViewControllerNavigationDirection) {
     self.myScrollView.scrollsToTop = NO;
     self.myScrollView.showsVerticalScrollIndicator = NO;
     self.myScrollView.showsHorizontalScrollIndicator = NO;
-    self.myScrollView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;
+#ifdef __IPHONE_11_0
+    if (@available(iOS 11.0, *)) {
+        self.myScrollView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;
+    }
+#endif
     self.firstWillLayoutSubViews = YES;
     
     if ([self.dataSource respondsToSelector:@selector(initViewControllerIndexInPageViewController:)]) {
@@ -69,23 +73,6 @@ typedef NS_ENUM(NSUInteger, DDPageViewControllerNavigationDirection) {
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     if (self.firstWillAppear) {
-        UIScreenEdgePanGestureRecognizer *screenEdgePanGestureRecognizer = nil;
-        if (self.dataSource && [self.dataSource respondsToSelector:@selector(screenEdgePanGestureRecognizerInPageViewController:)]) {
-            screenEdgePanGestureRecognizer = [self.dataSource screenEdgePanGestureRecognizerInPageViewController:self];
-        }
-        if (!screenEdgePanGestureRecognizer) {
-            if (self.navigationController.view.gestureRecognizers.count > 0){
-                for (UIGestureRecognizer *recognizer in self.navigationController.view.gestureRecognizers){
-                    if ([recognizer isKindOfClass:[UIScreenEdgePanGestureRecognizer class]]){
-                        screenEdgePanGestureRecognizer = (UIScreenEdgePanGestureRecognizer *)recognizer;
-                        break;
-                    }
-                }
-            }
-        }
-        if (screenEdgePanGestureRecognizer) {
-            [self.myScrollView.panGestureRecognizer requireGestureRecognizerToFail:screenEdgePanGestureRecognizer];
-        }
         [self p_updateScrollViewLayoutIfNeed];
         self.firstWillAppear = NO;
     }
@@ -524,8 +511,6 @@ typedef NS_ENUM(NSUInteger, DDPageViewControllerNavigationDirection) {
     NSInteger index = scrollView.ddPageIndex;
 
     if ([keyPath isEqualToString:@"contentOffset"]) {
-        NSLog(@"%f",scrollView.contentOffset.y);
-
         if (scrollView.contentSize.height == 0 || self.shouldIgnoreScrollViewContentOffset) {
             return;
         }

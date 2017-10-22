@@ -130,7 +130,6 @@
 			isa = PBXGroup;
 			children = (
 				9041F0C41F90886B007E3444 /* Category */,
-				9091F5BF1F9056C000D4D2F5 /* View */,
 				9091F5BE1F9056C000D4D2F5 /* ViewController */,
 			);
 			path = DDPageController;
@@ -148,13 +147,6 @@
 				9041F0C91F909D8F007E3444 /* DDContentViewController.m */,
 			);
 			path = ViewController;
-			sourceTree = "<group>";
-		};
-		9091F5BF1F9056C000D4D2F5 /* View */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = View;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
