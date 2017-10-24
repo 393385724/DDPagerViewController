@@ -315,7 +315,8 @@ typedef NS_ENUM(NSUInteger, DDPageViewControllerNavigationDirection) {
         }
         [self didMoveToParentViewController:viewController];
     }
-    NSInteger index = [self.childViewControllers indexOfObject:viewController];
+    
+    NSInteger index = [[[self.viewControllerCacheDict allKeysForObject:viewController] firstObject] integerValue];
     CGRect childViewFrame = [self.myScrollView ddPage_calculateVisibleViewControllerFrameWithIndex:index];
     viewController.view.frame = childViewFrame;
 }

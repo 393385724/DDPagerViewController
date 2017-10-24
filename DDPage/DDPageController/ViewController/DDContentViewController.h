@@ -8,7 +8,6 @@
 // 子类的ScrollView最好手动创建
 
 #import <UIKit/UIKit.h>
-#import "DDPageViewControllerProtocol.h"
 
 @interface DDContentViewController : UIViewController {
     //pageView显示区域大小，默认UIEdgeInsetsZero
@@ -60,5 +59,52 @@
  @return UIView
  */
 - (UIView *)pageBarView;
+
+/**
+ 容器中一共包含的viewController数目，默认0
+
+ @return NSInteger
+ */
+- (NSInteger)numberOfChildViewControllers;
+
+/**
+ 根据制定的index生成需要展示的ViewController， 默认nil
+
+ @param index Index
+ @return UIViewController
+ */
+- (UIViewController *)childViewControllerAtIndex:(NSInteger)index;
+
+/**
+ 页面将要切换toViewController在调用ViewDidApear之前
+ 
+ @param fromViewController 将要消失的页面
+ @param toViewController 当前显示的页面
+ */
+- (void)willTransitionFromViewController:(UIViewController *)fromViewController
+                        toViewController:(UIViewController *)toViewController;
+
+/**
+ 页面已经切换toViewController在调用ViewDidApear之前
+ 
+ @param fromViewController 将要消失的页面
+ @param toViewController 当前显示的页面
+ */
+- (void)didTransitionFromViewController:(UIViewController *)fromViewController
+                       toViewController:(UIViewController *)toViewController;
+
+/**
+ 水平方向上页面的偏移
+ 
+ @param index 滚动到新的位置
+ */
+- (void)viewControllersDidTransitToIndex:(NSUInteger)index;
+
+/**
+ 垂直方向上页面的偏移
+ 
+ @param offsetY 垂直偏移量
+ */
+- (void)childDidChangeVerticalContentOffsetY:(CGFloat)offsetY;
 
 @end
