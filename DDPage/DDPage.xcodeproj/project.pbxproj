@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		902FE2D91FB29E2600205458 /* DDCoverContentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 902FE2D81FB29E2600205458 /* DDCoverContentViewController.m */; };
 		9041F0C71F908883007E3444 /* UIScrollView+DDPage.m in Sources */ = {isa = PBXBuildFile; fileRef = 9041F0C61F908883007E3444 /* UIScrollView+DDPage.m */; };
 		9041F0CA1F909D8F007E3444 /* DDContentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9041F0C91F909D8F007E3444 /* DDContentViewController.m */; };
 		9041F0CE1F90C3B1007E3444 /* HMMainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9041F0CC1F90C3B1007E3444 /* HMMainViewController.m */; };
@@ -29,8 +28,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		902FE2D71FB29E2600205458 /* DDCoverContentViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DDCoverContentViewController.h; sourceTree = "<group>"; };
-		902FE2D81FB29E2600205458 /* DDCoverContentViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DDCoverContentViewController.m; sourceTree = "<group>"; };
 		9041F0C51F908883007E3444 /* UIScrollView+DDPage.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIScrollView+DDPage.h"; sourceTree = "<group>"; };
 		9041F0C61F908883007E3444 /* UIScrollView+DDPage.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIScrollView+DDPage.m"; sourceTree = "<group>"; };
 		9041F0C81F909D8F007E3444 /* DDContentViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DDContentViewController.h; sourceTree = "<group>"; };
@@ -148,8 +145,6 @@
 				90F25B0E1F94998A00CB075E /* DDPageViewControllerProtocol.h */,
 				9041F0C81F909D8F007E3444 /* DDContentViewController.h */,
 				9041F0C91F909D8F007E3444 /* DDContentViewController.m */,
-				902FE2D71FB29E2600205458 /* DDCoverContentViewController.h */,
-				902FE2D81FB29E2600205458 /* DDCoverContentViewController.m */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -235,7 +230,6 @@
 				9041F0C71F908883007E3444 /* UIScrollView+DDPage.m in Sources */,
 				90F25B0C1F94642400CB075E /* HMContentViewController.m in Sources */,
 				907E25981F99AAE400CD1B51 /* HMCustomNavViewController.m in Sources */,
-				902FE2D91FB29E2600205458 /* DDCoverContentViewController.m in Sources */,
 				9091F5C61F9058BA00D4D2F5 /* DDPageViewController.m in Sources */,
 				90F25B121F949EFE00CB075E /* HMTableViewController.m in Sources */,
 				90F25B071F93087000CB075E /* HMViewController.m in Sources */,
