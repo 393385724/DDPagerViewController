@@ -9,6 +9,8 @@
 
 #import <UIKit/UIKit.h>
 
+@class DDPageViewController;
+
 @interface DDContentViewController : UIViewController {
     //pageView显示区域大小，默认UIEdgeInsetsZero
     UIEdgeInsets _containerEdgeInset;
@@ -17,6 +19,8 @@
     //是否有bounces效果， 默认NO
     BOOL _bounces;
 }
+
+@property (readonly) DDPageViewController *pageViewController;
 
 /**
  不设置，默认0
@@ -37,28 +41,6 @@
  *  @param animated 是否需要动画
  */
 - (void)switchToIndex:(NSUInteger)index animated:(BOOL)animated;
-
-
-/**
- 页面顶部安全区域，默认0，自定义页面需要使用该值
-
- @return CGFloat
- */
-- (CGFloat)pageTopSafeArea;
-
-/**
- 跟随页面走的
-
- @return UIView
- */
-- (UIView *)pageHeadView;
-
-/**
- 页面选项View,实现的话会类似于TableView的Header会悬浮, 默认nil
- 
- @return UIView
- */
-- (UIView *)pageBarView;
 
 /**
  容器中一共包含的viewController数目，默认0
@@ -92,13 +74,6 @@
  */
 - (void)didTransitionFromViewController:(UIViewController *)fromViewController
                        toViewController:(UIViewController *)toViewController;
-
-/**
- 水平方向上页面的偏移
- 
- @param index 滚动到新的位置
- */
-- (void)viewControllersDidTransitToIndex:(NSUInteger)index;
 
 /**
  垂直方向上页面的偏移

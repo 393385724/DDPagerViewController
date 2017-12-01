@@ -23,7 +23,7 @@
 - (NSInteger)numberOfViewControllersInPageViewController:(DDPageViewController *)pageViewController;
 
 /**
- 根据指定的index创建一个ViewController
+ 根据指定的index创建一个子ViewController
 
  @param pageViewController DDPageViewController
  @param index 当前的index
@@ -35,7 +35,7 @@
 @optional
 
 /**
- 返回初始化显示的页面
+ 返回默认初始化显示的页面，不设置则是第0个
 
  @param pageViewController DDPageViewController
  @return NSInteger
